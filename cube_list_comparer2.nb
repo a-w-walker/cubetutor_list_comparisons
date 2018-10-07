@@ -1,0 +1,679 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 11.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     25985,        671]
+NotebookOptionsPosition[     25315,        645]
+NotebookOutlinePosition[     25661,        660]
+CellTagsIndexPosition[     25618,        657]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"IMPORTING", "/", "EXPORTING"}], " ", "CUBE", " ", "LISTS"}], 
+   "*)"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{"Enter", " ", "a", " ", 
+    RowBox[{"cubleist", "'"}], "s", " ", "URL", " ", "to", " ", "download", 
+    " ", "and", " ", "cache", " ", "the", " ", "contents", " ", "as", " ", 
+    "a", " ", 
+    RowBox[{"list", "."}]}], " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"list", "[", "num_", "]"}], ":=", " ", 
+     RowBox[{
+      RowBox[{"list", "[", "num", "]"}], "=", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"StringDrop", "[", 
+         RowBox[{
+          RowBox[{"Last", "[", 
+           RowBox[{"StringSplit", "[", 
+            RowBox[{"#", ",", "\"\<>\>\""}], "]"}], "]"}], ",", 
+          RowBox[{"-", "3"}]}], "]"}], "&"}], "/@", 
+       RowBox[{"StringCases", "[", 
+        RowBox[{
+         RowBox[{"Import", "[", 
+          RowBox[{
+           RowBox[{"\"\<http://www.cubetutor.com/viewcube/\>\"", "<>", 
+            RowBox[{"ToString", "[", "num", "]"}]}], ",", "\"\<Source\>\""}], 
+          "]"}], ",", 
+         RowBox[{"RegularExpression", "[", 
+          RowBox[{"\"\<href=\\\"http://www.cubetutor.com/card/\>\"", "<>", 
+           RowBox[{"ToString", "[", "num", "]"}], "<>", 
+           "\"\</.{1,40}</a>\>\""}], "]"}]}], "]"}]}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Set", " ", "working", " ", 
+     RowBox[{"directory", ".", " ", "Export"}], " ", "a", " ", "range", " ", 
+     "of", " ", "cubelists", " ", "to", " ", "a", " ", "local", " ", 
+     RowBox[{"directory", ".", " ", "The"}], " ", "following", " ", "is", " ",
+      "an", " ", 
+     RowBox[{"example", ".", "  ", "Change"}], " ", "it", " ", "to", " ", 
+     "your", " ", "desired", " ", 
+     RowBox[{"path", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+    "SetDirectory", "[", 
+     "\"\<C:\\\\Users\\\\awwalker\\\\Documents\\\\mtg\>\"", "]"}], ";", 
+    RowBox[{
+     RowBox[{"exportlists", "[", "num_", "]"}], ":=", 
+     RowBox[{"Export", "[", 
+      RowBox[{"\"\<cubetutor_lists\>\"", ",", 
+       RowBox[{"list", "/@", 
+        RowBox[{"Range", "[", "num", "]"}]}], ",", "\"\<List\>\""}], 
+      "]"}]}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"Import", " ", "previously", " ", "exported", " ", 
+      RowBox[{"databases", ".", " ", "This"}], " ", "may", " ", "take", " ", 
+      "a", " ", "minute"}], ",", " ", 
+     RowBox[{"once", " ", "you", " ", "have", " ", 
+      RowBox[{"them", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"importlists", "[", "]"}], ":=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"rawlists", "=", 
+        RowBox[{"Import", "[", 
+         RowBox[{"\"\<cubetutor_lists\>\"", ",", "\"\<List\>\""}], "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"list", "[", "num", "]"}], "=", 
+          RowBox[{"ToExpression", "[", 
+           RowBox[{"rawlists", "[", 
+            RowBox[{"[", "num", "]"}], "]"}], "]"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"num", ",", "1", ",", 
+           RowBox[{"Length", "[", "rawlists", "]"}]}], "}"}]}], "]"}]}], 
+      ")"}]}], ";"}]}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.747883687113353*^9, 3.7478837827989287`*^9}, {
+   3.747883816482503*^9, 3.747883831446938*^9}, {3.747884262995267*^9, 
+   3.747884398992434*^9}, {3.7478844759735284`*^9, 3.747884493935875*^9}, 
+   3.74788465043614*^9, 3.747884949090486*^9, {3.7478900624958944`*^9, 
+   3.7478901093824816`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"CUBE", " ", "SIMILARITY", " ", "TOOLS"}], "*)"}], 
+  "\[IndentingNewLine]", "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Compute", " ", "the", " ", "symmetric", " ", "difference", " ", "of", " ",
+     "two", " ", "cube", " ", 
+    RowBox[{"lists", "."}]}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{
+     RowBox[{"symdiff", "[", 
+      RowBox[{"num1_", ",", "num2_"}], "]"}], ":=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"Complement", "[", 
+        RowBox[{
+         RowBox[{"list", "[", "num1", "]"}], ",", 
+         RowBox[{"list", "[", "num2", "]"}]}], "]"}], ",", 
+       RowBox[{"Complement", "[", 
+        RowBox[{
+         RowBox[{"list", "[", "num2", "]"}], ",", 
+         RowBox[{"list", "[", "num1", "]"}]}], "]"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Define", " ", "the", " ", "Lp", " ", 
+     RowBox[{"norms", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"lpnorm", "[", 
+      RowBox[{"list_", ",", "p_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"N", "@", 
+       RowBox[{"Total", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#", "^", "p"}], "&"}], "/@", "list"}], "]"}]}], "^", 
+      RowBox[{"(", 
+       RowBox[{"1", "/", "p"}], ")"}]}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Assign", " ", "similarity", " ", "scores", " ", "to", " ", "other", " ", 
+     RowBox[{"cubes", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"assignscores", "[", "cl_", "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"(*", 
+       RowBox[{"Clear", " ", "sd", " ", 
+        RowBox[{"(", 
+         RowBox[{"symmetric", " ", "difference"}], ")"}], " ", 
+        RowBox[{"variables", "."}]}], "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Clear", "[", 
+        RowBox[{"sd1", ",", "sd2", ",", "sdi"}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"For", " ", "non"}], "-", 
+          RowBox[{"troll", " ", "cubes"}]}], ",", " ", 
+         RowBox[{
+         "compute", " ", "the", " ", "symmetric", " ", "difference", " ", 
+          "and", " ", "compute", " ", 
+          RowBox[{"norms", ".", " ", "We"}], " ", "use", " ", "the", " ", 
+          "L1"}], ",", " ", "L2", ",", " ", 
+         RowBox[{"and", " ", "L\[Infinity]", " ", "norms", " ", "as", " ", 
+          RowBox[{"default", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Length", "[", 
+             RowBox[{"Union", "[", 
+              RowBox[{"list", "[", "listnum", "]"}], "]"}], "]"}], ">", 
+            "125"}], ",", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{"SDL", "=", 
+             RowBox[{"Length", "/@", 
+              RowBox[{"symdiff", "[", 
+               RowBox[{"listnum", ",", "cl"}], "]"}]}]}], ";", 
+            "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"sd1", "[", "listnum", "]"}], "=", 
+             RowBox[{"lpnorm", "[", 
+              RowBox[{"SDL", ",", "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"sd2", "[", "listnum", "]"}], "=", 
+             RowBox[{"lpnorm", "[", 
+              RowBox[{"SDL", ",", "2"}], "]"}]}], ";", "\[IndentingNewLine]", 
+            RowBox[{
+             RowBox[{"sdi", "[", "listnum", "]"}], "=", 
+             RowBox[{"Max", "[", "SDL", "]"}]}]}]}], "]"}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"listnum", ",", "1", ",", "120000"}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"(*", 
+        RowBox[{
+        "Cache", " ", "lists", " ", "of", " ", "500", " ", "closest", " ", 
+         RowBox[{"cubes", ".", " ", "Easy"}], " ", "to", " ", "reconstruct", 
+         " ", "scores", " ", "from", " ", 
+         RowBox[{"here", "."}]}], "*)"}], "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"top1", "[", "cl", "]"}], "=", 
+        RowBox[{
+         RowBox[{"SortBy", "[", 
+          RowBox[{
+           RowBox[{"Range", "[", "120000", "]"}], ",", 
+           RowBox[{
+            RowBox[{"sd1", "[", "#", "]"}], "&"}]}], "]"}], "[", 
+         RowBox[{"[", 
+          RowBox[{";;", "500"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"top2", "[", "cl", "]"}], "=", 
+        RowBox[{
+         RowBox[{"SortBy", "[", 
+          RowBox[{
+           RowBox[{"Range", "[", "120000", "]"}], ",", 
+           RowBox[{
+            RowBox[{"sd1", "[", "#", "]"}], "&"}]}], "]"}], "[", 
+         RowBox[{"[", 
+          RowBox[{";;", "500"}], "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"topi", "[", "cl", "]"}], "=", 
+        RowBox[{
+         RowBox[{"SortBy", "[", 
+          RowBox[{
+           RowBox[{"Range", "[", "120000", "]"}], ",", 
+           RowBox[{
+            RowBox[{"sdi", "[", "#", "]"}], "&"}]}], "]"}], "[", 
+         RowBox[{"[", 
+          RowBox[{";;", "500"}], "]"}], "]"}]}], ";"}], "\[IndentingNewLine]",
+       ")"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Generate", " ", "a", " ", "leaderboard", " ", "of", " ", "similar", " ", 
+     "cubes", " ", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"by", " ", "different", " ", "norms"}], ")"}], ".", " ", 
+      "Must"}], " ", "have", " ", "run", " ", "\"\<assignscores\>\"", " ", 
+     "for", " ", "the", " ", "current", " ", "cube", " ", "earlier", " ", 
+     "in", " ", "the", " ", 
+     RowBox[{"session", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"leaderboard", "[", "cl_", "]"}], ":=", 
+     RowBox[{"(", "\[IndentingNewLine]", 
+      RowBox[{"Row", "[", 
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Range", "[", "30", "]"}], ",", 
+             RowBox[{
+              RowBox[{"top1", "[", "cl", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{";;", "30"}], "]"}], "]"}], ",", 
+             RowBox[{"sd1", "/@", 
+              RowBox[{
+               RowBox[{"top1", "[", "cl", "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{";;", "30"}], "]"}], "]"}]}]}], "}"}], "]"}], "//", 
+          "MatrixForm"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Range", "[", "30", "]"}], ",", 
+             RowBox[{
+              RowBox[{"top2", "[", "cl", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{";;", "30"}], "]"}], "]"}], ",", 
+             RowBox[{"sd2", "/@", 
+              RowBox[{
+               RowBox[{"top2", "[", "cl", "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{";;", "30"}], "]"}], "]"}]}]}], "}"}], "]"}], "//", 
+          "MatrixForm"}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Transpose", "[", 
+           RowBox[{"{", 
+            RowBox[{
+             RowBox[{"Range", "[", "30", "]"}], ",", 
+             RowBox[{
+              RowBox[{"topi", "[", "cl", "]"}], "[", 
+              RowBox[{"[", 
+               RowBox[{";;", "30"}], "]"}], "]"}], ",", 
+             RowBox[{"sdi", "/@", 
+              RowBox[{
+               RowBox[{"topi", "[", "cl", "]"}], "[", 
+               RowBox[{"[", 
+                RowBox[{";;", "30"}], "]"}], "]"}]}]}], "}"}], "]"}], "//", 
+          "MatrixForm"}]}], "}"}], "]"}], ")"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Markup", " ", "Printouts"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Link", " ", 
+     RowBox[{"formatting", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"format1", "[", 
+      RowBox[{"num_", ",", "list_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"ToString", "[", "num", "]"}], "<>", "\"\<. [\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", "\"\<](\>\"", "<>", 
+      "\"\<http://www.cubetutor.com/viewcube/\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", 
+      "\"\<), with score \>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"Round", "@", 
+        RowBox[{"sd1", "[", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", "num", "]"}], "]"}], "]"}]}], "]"}], "<>", 
+      "\"\<.\>\""}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"format2", "[", 
+      RowBox[{"num_", ",", "list_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"ToString", "[", "num", "]"}], "<>", "\"\<. [\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", "\"\<](\>\"", "<>", 
+      "\"\<http://www.cubetutor.com/viewcube/\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", 
+      "\"\<), with score \>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"Round", "@", 
+        RowBox[{"sd2", "[", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", "num", "]"}], "]"}], "]"}]}], "]"}], "<>", 
+      "\"\<.\>\""}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"formati", "[", 
+      RowBox[{"num_", ",", "list_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"ToString", "[", "num", "]"}], "<>", "\"\<. [\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", "\"\<](\>\"", "<>", 
+      "\"\<http://www.cubetutor.com/viewcube/\>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"list", "[", 
+        RowBox[{"[", "num", "]"}], "]"}], "]"}], "<>", 
+      "\"\<), with score \>\"", "<>", 
+      RowBox[{"ToString", "[", 
+       RowBox[{"Round", "@", 
+        RowBox[{"sdi", "[", 
+         RowBox[{"list", "[", 
+          RowBox[{"[", "num", "]"}], "]"}], "]"}]}], "]"}], "<>", 
+      "\"\<.\>\""}]}], ";"}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{
+     "Generate", " ", "a", " ", "printout", " ", "with", " ", "Reddit"}], "-", 
+     RowBox[{"compatible", " ", "hyperlink", " ", 
+      RowBox[{"markup", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"printout", "[", "cl_", "]"}], ":=", 
+     RowBox[{"(", 
+      RowBox[{"StringJoin", "[", 
+       RowBox[{"\"\<L1 Norm:\\n\\n\>\"", ",", "\[IndentingNewLine]", 
+        RowBox[{"StringJoin", "@", 
+         RowBox[{"Riffle", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"format1", "[", 
+              RowBox[{"#", ",", 
+               RowBox[{"top1", "[", "cl", "]"}]}], "]"}], "&"}], "/@", 
+            RowBox[{"Range", "[", "10", "]"}]}], ",", "\"\<\\n\\n\>\""}], 
+          "]"}]}], ",", "\[IndentingNewLine]", "\"\<\\n\\n\>\"", ",", 
+        "\[IndentingNewLine]", "\"\<L2 Norm:\\n\\n\>\"", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"StringJoin", "@", 
+         RowBox[{"Riffle", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"format2", "[", 
+              RowBox[{"#", ",", 
+               RowBox[{"top2", "[", "cl", "]"}]}], "]"}], "&"}], "/@", 
+            RowBox[{"Range", "[", "10", "]"}]}], ",", "\"\<\\n\\n\>\""}], 
+          "]"}]}], ",", "\[IndentingNewLine]", "\"\<\\n\\n\>\"", ",", 
+        "\[IndentingNewLine]", "\"\<L\[Infinity] Norm:\\n\\n\>\"", ",", 
+        "\[IndentingNewLine]", 
+        RowBox[{"StringJoin", "@", 
+         RowBox[{"Riffle", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{
+             RowBox[{"formati", "[", 
+              RowBox[{"#", ",", 
+               RowBox[{"topi", "[", "cl", "]"}]}], "]"}], "&"}], "/@", 
+            RowBox[{"Range", "[", "10", "]"}]}], ",", "\"\<\\n\\n\>\""}], 
+          "]"}]}]}], "]"}], ")"}]}], ";"}]}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.747884711482294*^9, 3.747884784042879*^9}, 
+   3.747884830840457*^9, {3.7478849284824286`*^9, 3.7478850344336033`*^9}, {
+   3.747885068065656*^9, 3.7478852367742453`*^9}, {3.7478853129333773`*^9, 
+   3.7478855632935495`*^9}, {3.7478856007878094`*^9, 
+   3.7478856228712807`*^9}, {3.747886011305092*^9, 3.7478860186015663`*^9}, {
+   3.747886511720612*^9, 3.7478865148001566`*^9}, {3.7478865809910636`*^9, 
+   3.7478866109120245`*^9}, {3.747886737729727*^9, 3.747886894797512*^9}, {
+   3.747887123950642*^9, 3.7478871817647624`*^9}, {3.74788722106363*^9, 
+   3.747887255620305*^9}, {3.7478873808312197`*^9, 3.747887448412784*^9}, {
+   3.747887504740723*^9, 3.7478877239431314`*^9}}],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"CARD", " ", "RECOMMENDATIONS"}], "*)"}], "\[IndentingNewLine]", 
+  "\[IndentingNewLine]", 
+  RowBox[{"(*", 
+   RowBox[{
+   "Return", " ", "a", " ", "list", " ", "of", " ", "cards", " ", "which", 
+    " ", "lie", " ", "in", " ", "at", " ", "least", " ", "one", " ", 
+    "\"\<similar\>\"", " ", 
+    RowBox[{"cube", "."}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{
+   RowBox[{
+    RowBox[{"morecards", "[", "cl_", "]"}], ":=", 
+    RowBox[{"Complement", "[", 
+     RowBox[{
+      RowBox[{"Union", "@", 
+       RowBox[{"Flatten", "[", 
+        RowBox[{"list", "/@", 
+         RowBox[{"Complement", "[", 
+          RowBox[{
+           RowBox[{"topi", "[", "cl", "]"}], ",", 
+           RowBox[{"{", "cl", "}"}]}], "]"}]}], "]"}]}], ",", 
+      RowBox[{"list", "[", "cl", "]"}]}], "]"}]}], "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Define", " ", "a", " ", "weight", " ", "as", " ", "a", " ", "function", 
+     " ", "of", " ", "cube", " ", 
+     RowBox[{"similarity", ".", " ", "This"}], " ", "is", " ", 
+     RowBox[{"flexible", "."}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"weight", "[", 
+      RowBox[{"diff_", ",", "exp_"}], "]"}], ":=", 
+     RowBox[{
+      RowBox[{"(", 
+       RowBox[{"1", "-", 
+        RowBox[{"diff", "/", "450"}]}], ")"}], "^", "exp"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Return", " ", "ranked", " ", "lists", " ", "of", " ", "potential", " ", 
+     RowBox[{"additions", "/", 
+      RowBox[{"cuts", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"advice", "[", "cl_", "]"}], ":=", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{"Clear", "[", 
+        RowBox[{"score1", ",", "score2"}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"score1", "[", "card", "]"}], "=", "0."}], ",", 
+         RowBox[{"{", 
+          RowBox[{"card", ",", 
+           RowBox[{"morecards", "[", "cl", "]"}]}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"score2", "[", "card", "]"}], "=", "0."}], ",", 
+         RowBox[{"{", 
+          RowBox[{"card", ",", 
+           RowBox[{"list", "[", "cl", "]"}]}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"SD", "=", 
+           RowBox[{"symdiff", "[", 
+            RowBox[{"listnum", ",", "cl"}], "]"}]}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"w", "=", 
+           RowBox[{"weight", "[", 
+            RowBox[{
+             RowBox[{"Max", "[", 
+              RowBox[{"Length", "/@", "SD"}], "]"}], ",", "3"}], "]"}]}], ";",
+           "\[IndentingNewLine]", 
+          RowBox[{"Do", "[", "\[IndentingNewLine]", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"score1", "[", "card", "]"}], "=", 
+             RowBox[{
+              RowBox[{"score1", "[", "card", "]"}], "+", "w"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"card", ",", 
+              RowBox[{"SD", "[", 
+               RowBox[{"[", "1", "]"}], "]"}]}], "}"}]}], "]"}], ";", 
+          "\[IndentingNewLine]", 
+          RowBox[{"Do", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"score2", "[", "card", "]"}], "=", 
+             RowBox[{
+              RowBox[{"score2", "[", "card", "]"}], "+", "w"}]}], ",", 
+            "\[IndentingNewLine]", 
+            RowBox[{"{", 
+             RowBox[{"card", ",", 
+              RowBox[{"SD", "[", 
+               RowBox[{"[", "2", "]"}], "]"}]}], "}"}]}], "]"}]}], ",", 
+         "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"listnum", ",", 
+           RowBox[{"topi", "[", "cl", "]"}]}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"addtable", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"#", ",", 
+             RowBox[{"score1", "[", "#", "]"}]}], "}"}], "&"}], "/@", 
+          RowBox[{
+           RowBox[{"SortBy", "[", 
+            RowBox[{
+             RowBox[{"morecards", "[", "cl", "]"}], ",", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"score1", "[", "#", "]"}]}], "&"}]}], "]"}], "[", 
+           RowBox[{"[", 
+            RowBox[{";;", "30"}], "]"}], "]"}]}], ")"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"cuttable", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"#", ",", 
+             RowBox[{"score2", "[", "#", "]"}]}], "}"}], "&"}], "/@", 
+          RowBox[{
+           RowBox[{"SortBy", "[", 
+            RowBox[{
+             RowBox[{"list", "[", "81868", "]"}], ",", 
+             RowBox[{
+              RowBox[{"-", 
+               RowBox[{"score2", "[", "#", "]"}]}], "&"}]}], "]"}], "[", 
+           RowBox[{"[", 
+            RowBox[{";;", "30"}], "]"}], "]"}]}], ")"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Row", "[", 
+        RowBox[{"{", 
+         RowBox[{
+          RowBox[{"addtable", "//", "MatrixForm"}], ",", 
+          RowBox[{"cuttable", "//", "MatrixForm"}]}], "}"}], "]"}]}], ")"}]}],
+     ";"}]}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7478869444050694`*^9, 3.7478869553624926`*^9}, {
+  3.7478870348179035`*^9, 3.7478870786366715`*^9}, {3.7478883206294184`*^9, 
+  3.7478883395883036`*^9}, {3.747888444335588*^9, 3.7478884779896755`*^9}, {
+  3.747888565315466*^9, 3.7478886202379875`*^9}, {3.7478886597834563`*^9, 
+  3.7478887626812305`*^9}, {3.7478888682082605`*^9, 3.747889082648203*^9}, {
+  3.7478891249533587`*^9, 3.7478891296779594`*^9}, {3.7478892547142963`*^9, 
+  3.747889260200969*^9}, {3.7478893171201725`*^9, 3.7478893171874676`*^9}, {
+  3.7478895143374605`*^9, 3.7478895191858463`*^9}, {3.747889575096368*^9, 
+  3.747889580614915*^9}, {3.7478901213135653`*^9, 3.7478901274919977`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Example", " ", 
+     RowBox[{"workflow", ".", " ", "Counter"}], " ", "acts", " ", "as", " ", 
+     "a", " ", "progress", " ", "bar", " ", "for", " ", "the", " ", 
+     "\"\<assignscores\>\"", " ", 
+     RowBox[{"function", ".", "  ", "Begin"}], " ", "each", " ", "session", 
+     " ", "with", " ", "an", " ", "import"}], ",", " ", 
+    RowBox[{"if", " ", "lists", " ", "are", " ", "already", " ", 
+     RowBox[{"local", "."}]}]}], "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"Dynamic", "[", "listnum", "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7478896477496405`*^9, 3.7478897008924713`*^9}, {
+  3.7478901460144434`*^9, 3.747890193943254*^9}}],
+
+Cell[BoxData[
+ DynamicBox[ToBoxes[$CellContext`listnum, StandardForm],
+  ImageSizeCache->{49., {0., 9.}}]], "Output",
+ CellChangeTimes->{3.747889904018847*^9, 3.7478902004588165`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"importlists", "[", "]"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"Errors", " ", "for", " ", "strangely"}], "-", 
+    RowBox[{"formatted", " ", "cubes", " ", "are", " ", "to", " ", "be", " ", 
+     RowBox[{"expected", "."}]}]}], "*)"}]}]], "Input",
+ CellChangeTimes->{{3.7478847079703274`*^9, 3.7478847091341515`*^9}, {
+  3.747885743496144*^9, 3.7478857466941495`*^9}, {3.747885898514856*^9, 
+  3.7478859215372553`*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"assignscores", "[", "81868", "]"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"leaderboard", "[", "81868", "]"}]}], "Input",
+ CellChangeTimes->{
+  3.74788970655151*^9, {3.7478902154516697`*^9, 3.7478902186212254`*^9}, {
+   3.7478902883351355`*^9, 3.747890292516986*^9}}],
+
+Cell[BoxData[
+ RowBox[{"advice", "[", "81868", "]"}]], "Input",
+ CellChangeTimes->{{3.747889756548473*^9, 3.747889759739795*^9}}]
+},
+WindowSize->{730, 731},
+WindowMargins->{{Automatic, -7}, {Automatic, 0}},
+FrontEndVersion->"11.0 for Microsoft Windows (64-bit) (September 21, 2016)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[558, 20, 3761, 90, 370, "Input",
+ InitializationCell->True],
+Cell[4322, 112, 13003, 323, 1092, "Input",
+ InitializationCell->True],
+Cell[17328, 437, 6129, 157, 484, "Input",
+ InitializationCell->True],
+Cell[CellGroupData[{
+Cell[23482, 598, 732, 15, 85, "Input",
+ InitializationCell->True],
+Cell[24217, 615, 183, 3, 30, "Output"]
+}, Open  ]],
+Cell[24415, 621, 457, 10, 30, "Input"],
+Cell[24875, 633, 304, 6, 50, "Input"],
+Cell[25182, 641, 129, 2, 30, "Input"]
+}
+]
+*)
+
